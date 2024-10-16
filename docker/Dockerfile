@@ -1,4 +1,4 @@
-FROM 10.142.12.18:38080/ai/ai-release/debian_python_base:3.10.13
+FROM tyronextian/debian-python
 
 # 把根目录的requirements.txt拷贝到这来再做镜像
 COPY requirements.txt /tmp

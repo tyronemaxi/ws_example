@@ -1,6 +1,6 @@
 #!/bin/sh
-REPOSITORY_NAME=10.29.40.23:7098/ai/docker-prod/
-IMAGE_NAME=aigpt_backend_fundation
+REPOSITORY_NAME=tyronextian
+IMAGE_NAME=api_infra_base
 
 cd ..
 
@@ -24,6 +24,6 @@ TAG=${branch_suffix}_${DATE}
 
 docker build -t ${IMAGE_NAME}:${TAG} -f ./docker/Dockerfile .
 docker tag ${IMAGE_NAME}:${TAG} ${REPOSITORY_NAME}${IMAGE_NAME}:${TAG}
-docker push ${REPOSITORY_NAME}${IMAGE_NAME}:${TAG}
+docker push ${REPOSITORY_NAME}/${IMAGE_NAME}:${TAG}
 
-echo "docker pull ${REPOSITORY_NAME}${IMAGE_NAME}:${TAG}"
+echo "docker pull ${REPOSITORY_NAME}/${IMAGE_NAME}:${TAG}"
