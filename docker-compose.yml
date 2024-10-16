@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  digital_api:
+    image: 10.29.40.23:7098/ai/docker-prod/aigpt_backend_fundation:v0.1.0
+    container_name: aigpt_backend_fundation
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./data/aidw/deploy_aigpt_backend_api/aigpt_backend/log:/code/log
+    env_file:
+      - .env.dev
