@@ -5,9 +5,14 @@ Author: tianzhichao
 File: response.py
 Time: 2024/10/15 09:57
 """
+import asyncio
+import json
+from queue import Queue
+
 from flask import jsonify, g
 from typing import Any
 from .http_code import *
+from app.core.log import logger
 
 
 class ResUtil(object):
@@ -103,4 +108,57 @@ class ResUtil(object):
         return resp
 
 
-res_util = ResUtil()
+class StreamResponseGen(object):
+    def __init__(self, gen_id: str = None):
+        self.gen_id = None
+        self.closed = False
+        self.queue = Queue()
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if not self.closed or not self.queue.empty():
+            item = self.queue.get()
+            if item is None:
+                raise StopIteration
+
+            return item
+
+    def send(self, data):
+        data = json.dumps(data)
+        s_data = f"data: {data}\n\n"
+        self.queue.put(s_data)
+
+    def close(self):
+        if not self.closed:
+            self.closed = True
+            self.send("[DONE]")
+            logger.info(f"llm 调用结束")
+
+
+class AIOStreamResponse:
+    def __init__(self, gen_id: str = None):
+        self.gen_id = gen_id
+        self.closed = False
+        self.queue = asyncio.Queue()  # 使用 asyncio.Queue 进行协程安全的队列
+
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        if not self.closed or not self.queue.empty():
+            item = await self.queue.get()  # 使用 await 进行异步获取
+            if item is None:
+                raise StopAsyncIteration  # 结束异步迭代
+
+            return item
+
+    async def send(self, data):
+        data = json.dumps(data)
+        s_data = f"data: {data}\n\n"
+        await self.queue.put(s_data)  # 使用 await 放入数据到队列
+
+    async def close(self):
+        self.closed = True
+        logger.info(f"llm 调用结束")

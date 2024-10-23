@@ -45,4 +45,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(port=PORT, host='0.0.0.0', use_reloader=False, debug=True)
+    app.run(port=PORT, host='0.0.0.0', use_reloader=True, debug=True)

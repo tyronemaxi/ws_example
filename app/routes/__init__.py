@@ -8,6 +8,9 @@ Time: 2024/10/15 09:11
 from flask import Blueprint, Flask
 from flask_restful import Api
 
+from app.routes.infrastructure.healthcheck import HealthCheckResource
+from app.routes.api.completions.chat import ChatResource
+
 # 基础设施路由，用于内部监控，健康检查相关
 infra_bp = Blueprint(name="infrastructure", import_name="infrastructure", url_prefix="/infrastructure")
 infra = Api(infra_bp)
@@ -16,10 +19,10 @@ infra = Api(infra_bp)
 api_bp = Blueprint(name="api", import_name="api", url_prefix='/api/v1')
 api = Api(api_bp)
 
-# 健康检查
-from app.routes.infrastructure.healthcheck import HealthCheckResource
 
 infra.add_resource(HealthCheckResource, "/healthcheck")
+
+api.add_resource(ChatResource, "/chat")
 
 
 def register_blueprint(app: Flask):

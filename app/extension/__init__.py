@@ -19,5 +19,5 @@ def register_extension(app: Flask):
     :return:
     """
     cors_init(app)
-    pg_cli.pg_init()
-    redis_cli.redis_init()
+    # pg_cli.pg_init()
+    # redis_cli.redis_init()
