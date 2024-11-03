@@ -71,6 +71,7 @@ def get_completion(messages, model):
     )
     return response.choices[0].message
 
+
 def get_location_coordinate(location, city="北京"):
     url = f"https://restapi.amap.com/v5/place/text?key={amap_key}&keywords={location}&region={city}"
     print(url)
@@ -79,6 +80,7 @@ def get_location_coordinate(location, city="北京"):
     if "pois" in result and result["pois"]:
         return result["pois"][0]
     return None
+
 
 def search_nearby_pois(longitude, latitude, keyword):
     url = f"https://restapi.amap.com/v5/place/around?key={amap_key}&keywords={keyword}&location={longitude},{latitude}"
@@ -100,8 +102,10 @@ def test(prompt, model_id="showcai-108b"):
         {"role": "user", "content": prompt}
     ]
     response = get_completion(messages, model_id)
+
     if (response.content is None):  # 解决 OpenAI 的一个 400 bug
         response.content = ""
+
     messages.append(response)  # 把大模型的回复加入到对话中
     print("=====GPT回复=====")
     print(response)
@@ -116,6 +120,7 @@ def test(prompt, model_id="showcai-108b"):
             if (tool_call.function.name == "get_location_coordinate"):
                 print("Call: get_location_coordinate")
                 result = get_location_coordinate(**args)
+
             elif (tool_call.function.name == "search_nearby_pois"):
                 print("Call: search_nearby_pois")
                 result = search_nearby_pois(**args)
@@ -133,13 +138,14 @@ def test(prompt, model_id="showcai-108b"):
         response = get_completion(messages, model_id)
         if (response.content is None):  # 解决 OpenAI 的一个 400 bug
             response.content = ""
+
         print("=====GPT回复2=====")
         print(response)
         messages.append(response)  # 把大模型的回复加入到对话中
 
     print("=====最终回复=====")
     print(response.content)
-    
+
     return response.content
 
 
