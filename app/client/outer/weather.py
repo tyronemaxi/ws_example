@@ -40,6 +40,7 @@ class CityCodes(BaseRequests):
             "key": api_key,
         }
         resp = self.get(params=params)
+        print(resp.json())
 
         if resp.status_code == 200:
             code = resp.json()['geocodes'][0]['adcode']
