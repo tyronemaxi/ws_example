@@ -13,13 +13,13 @@ from components.all_in_one.cli import LLMClientAPI
 from components.all_in_one.promt_template import SystemMessage, UserMessage
 from components.all_in_one.tool import TokensCalTool, TimeCalculation
 
-from conf.settings import api_base, api_key
+from conf.settings import OPENAI_API_KEY, OPENAI_API_BASE
 from app.core.response import StreamResponseGen
 
 
 class ChatCtrl(object):
     async def chat(self, gen: StreamResponseGen, query: str, conv_id: str, cp_id: str, user_id: str, stream: bool):
-        llm = LLMClientAPI(api_base=api_base, api_key=api_key)
+        llm = LLMClientAPI(api_base=OPENAI_API_BASE, api_key=OPENAI_API_KEY)
 
         tools = [
             TokensCalTool(),

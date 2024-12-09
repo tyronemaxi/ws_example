@@ -8,8 +8,7 @@ Time: 2024/10/15 09:11
 from flask import Flask
 
 from .cors import cors_init
-
-from app.engine import pg_cli, redis_cli
+from .ws import register_ws_event
 
 
 def register_extension(app: Flask):
@@ -21,3 +20,5 @@ def register_extension(app: Flask):
     cors_init(app)
     # pg_cli.pg_init()
     # redis_cli.redis_init()
+    register_ws_event(app)
+

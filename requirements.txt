@@ -16,3 +16,6 @@ minio==7.1.17
 celery==5.2.3
 
 PyJWT==2.3.0
+gevent-websocket==0.10.1
+python-socketio==5.10.0
+git+https://github.com/tyronemaxi/llm_lib.git

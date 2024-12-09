@@ -13,12 +13,12 @@ bind = f"0.0.0.0:{PORT}"
 backlog = 2048
 # 2. 工作进程和并发性能配置 -> worker && worker_class && worker_connections
 # 工作进程数 常规使用Docker横向扩容，故按项目实际情况配置
-workers = GUNICORN_WORKER_NUM
+workers = 1
 
 # 工作单位 除特殊情况外,工程无脑使用gevent 算法可考虑使用gthread
 # 详见文档: https://docs.gunicorn.org/en/stable/design.html#choosing-a-worker-type
 # 不使用sync的最大问题在于sync虽然在短连接中网络模式最为简单干净,但不支持长连接,在高并发任务中的TCP效率会非常低
-worker_class = "gevent"
+worker_class = "geventwebsocket.gunicorn.workers.GeventWebSocketWorker"
 # 客户端最大同时连接数 在极高并发根据服务器和实例数根据情况修改
 # 仅适用于eventlet/gevent
 worker_connections = 5000
