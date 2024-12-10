@@ -12,7 +12,6 @@ from app.core.log import logger
 from utils.jwt_coder import jwt_corder
 from app.controller.ws.events import events
 
-
 socketio = SocketIO(cors_allowed_origins='*', async_mode="gevent", manage_session=True)
 
 
@@ -32,3 +31,9 @@ def register_ws_event(app):
         }
 
         logger.debug(f"[ws] ws error for {e}, events: {messages}")
+
+    @socketio.on('message')
+    def handel_message(message):
+        events.handle_message(message)
+
+    return socketio

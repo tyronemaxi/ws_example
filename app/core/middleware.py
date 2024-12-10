@@ -20,10 +20,10 @@ def register_middleware(app: Flask) -> None:
     """
     注册中间件
     """
-    @app.before_request
-    def auth():
-        return auth_handler()
+    # @app.before_request
+    # def auth():
+    #     return auth_handler()
 
-    @app.teardown_request
-    def shutdown_session(exception=None):
-        pg_session.remove()
+    # @app.teardown_request
+    # def shutdown_session(exception=None):
+    #     pg_session.remove()

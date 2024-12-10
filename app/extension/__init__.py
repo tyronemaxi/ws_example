@@ -20,5 +20,7 @@ def register_extension(app: Flask):
     cors_init(app)
     # pg_cli.pg_init()
     # redis_cli.redis_init()
-    register_ws_event(app)
+    socketio = register_ws_event(app)
+
+    return socketio
 
